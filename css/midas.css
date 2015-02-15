@@ -1,0 +1,26 @@
+body {
+background: #dfe1e2;
+}
+
+.center {
+width: 560px; /* Ўирина элемента в пикселах */
+margin: 0 auto; /* по центру */
+}
+
+.test1{
+float: left; /* ќбтекание по правому краю */
+}
+
+.test2{
+float: left; /* ќбтекание по правому краю */
+}
+
+.bank {
+  width: 970px; /* ширина */
+  margin: 0 auto; /* по центру */
+}
+
+.navi-top{
+  width: 970px; /* ширина */
+  margin: 0 auto; /* по центру */
+}
