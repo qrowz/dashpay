@@ -7,14 +7,15 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/auth.php');
 
 switch(@$_GET['do']){
 	default: 
-		if(isset($_SESSION['sess']))	require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/index.php');
+		if(isset($_SESSION['sess']))	require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/news.php');
 			else						require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/login.php');
 	break;
 
-	case 'edit': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/edit.php'); break;
 	case 'stat': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/stat.php'); break;
 	case 'market': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/market.php'); break;
 	case 'bank': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/bank.php'); break;
-	case 'test': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/test.php'); break;
+	
+	case 'btc_wallet': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/btc_wallet.php'); break;
+	
 	case 'exit': _exit(); break;
 }

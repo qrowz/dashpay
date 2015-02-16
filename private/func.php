@@ -157,7 +157,7 @@ function send2site(){
 }
 
 function store_stat($id, $uid){
-	global $db; $i = '';
+	global $db; $i = ''; $j = 0;
 	
 	$query = $db->prepare("SELECT * FROM `sites` WHERE `uid` = :uid AND  `id` = :id");
 	$query->bindParam(':uid', $uid, PDO::PARAM_STR);
@@ -172,18 +172,10 @@ function store_stat($id, $uid){
 	
 	if($query->rowCount() == 0) return ["info" => "<h4><center>No transactions</center></h4>", "pages" => NULL, "items" => NULL];
 	
-	
-	$pages = new Paginator;  
-	$pages->items_total = $query->rowCount();  
-	$pages->mid_range = 5;  
-	$pages->paginate();
-	
-	$query = $db->prepare("SELECT * FROM `income` WHERE `sid` = :id ORDER BY `id` DESC {$pages->limit}");
-	$query->bindParam(':id', $id, PDO::PARAM_STR);
-	$query->execute();
-	
 	while($row = $query->fetch()){
-		$i = $i."<tr><td><center>{$row['address']}</center></td>
+		$j++;
+		$i = $i."<tr><td><center>{$j}</center></td>
+			<td><center>{$row['address']}</center></td>
             <td><center>{$row['balance']}</center></td>
             <td><center>".date("Y-m-d H:i:s", $row['time'])."</center></td>
 			<td><center><a href=\"https://blockchain.info/tx/{$row['txid']}\" target=\"_blank\" title=\"{$row['txid']}\">IN</a></center></td>
@@ -193,7 +185,7 @@ function store_stat($id, $uid){
 			</tr>";
 	}
 	
-	return ["info" => $i, "pages" => $pages->display_pages(), "items" => $pages->display_items_per_page()];
+	return $i;
 }
 
 function balance($a){
@@ -279,8 +271,7 @@ function edit_site($id, $uid){
 		  <p><input class=\"form-control input-sm\" id=\"name\" style=\"display:inline; position:relative;top:2px;width:300px;\" type=\"text\" name=\"name\" value=\"{$row['name']}\" placeholder=\"PayPal\" readonly></p>
 		  <p><input class=\"form-control input-sm\" id=\"main_url\" style=\"display:inline; position:relative;top:2px;width:300px;\" type=\"text\" name=\"name\" value=\"{$row['url']}\" placeholder=\"paypal.ru\" readonly> </p>
 		  <p><input class=\"form-control input-sm\" id=\"url\" style=\"display:inline; position:relative;top:2px;width:300px;\" type=\"text\" name=\"name\" value=\"{$row['surl']}\" placeholder=\"https://paypal.ru/secret/pay.php\"> </p>
-		  <p><input class=\"form-control input-sm\" id=\"key\" style=\"display:inline; position:relative;top:2px;width:282px;\" type=\"text\" name=\"name\" value=\"{$row['secret']}\" placeholder=\"Secret key\"> <a id=\"key_generate\" href=\"javascript: void(0)\"  ><i class=\"glyphicon glyphicon-retweet\" title=\"generate key\"></i></a> </p>
-		  <input class=\"btn btn-info\" id=\"edit_site\" type=\"submit\" style=\"margin-top: 0px;\" value=\"Save\">
+		  <p><input class=\"form-control input-sm\" id=\"key\" style=\"display:inline; position:relative;top:2px;width:282px;\" type=\"text\" name=\"name\" value=\"{$row['secret']}\" placeholder=\"Secret key\"> <a id=\"key_generate\" href=\"#\"><i class=\"glyphicon glyphicon-retweet\" title=\"generate key\"></i></a> </p>
 		</center>";
 }
 
@@ -313,10 +304,9 @@ function list_sites($user){
 	
 	$i = $i."<tr><td><center>{$row['id']}</center></td>
             <td><center>{$row['name']}</center></td>
-            <td><center>{$row['url']}</center></td>
 			<td><center>".store_balance($row['id'])."</center></td>
             <td><center><a href=\"?do=stat&id={$row['id']}\"><i class=\"glyphicon glyphicon-signal\" title=\"stat\"></i></a> &nbsp; 
-			<a href=\"/?do=edit&id={$row['id']}\"><i class=\"glyphicon glyphicon-pencil\" title=\"edit\"></i></a></center></td></tr>";
+			<a href=\"#\" data-editsite={$row['id']}><i class=\"glyphicon glyphicon-pencil\" title=\"edit\"></i></a></center></td></tr>";
 	}
 	return $i;
 }

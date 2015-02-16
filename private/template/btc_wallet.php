@@ -1,4 +1,4 @@
-<? $mystat = store_stat($_GET['id'], $user['id']); ?>
+<? $bank_address = get_b_address($user['id']);  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +17,7 @@
 </head>
 
 <body>
+
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -104,11 +105,34 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">			
+            <div class="row">
+			
+<div class="col-lg-12">
+<div class="panel panel-default">
+<div class="panel-heading">Send bitcoin to address</div>
+<div class="panel-body">
+<input class="form-control" id="btc_address" style="display:inline; position:relative;top:2px;width:350px;" type="text" name="name" value = "" placeholder="btc address">
+<input class="form-control" id="btc_address" style="display:inline; position:relative;top:2px;width:100px;" type="text" name="name" value = "" placeholder="amount">
+<input class="btn btn-info" id="change_btc" type="submit" style="margin-top: 2px; margin-left:3px" value="send money">
+</div>
+</div>
+</div>
+		
+<div class="col-lg-12">
+<div class="panel panel-default">
+<div class="panel-heading">Create new bitcoin address</div>
+<div class="panel-body">
+<input class="form-control" id="label" style="display:inline; position:relative;top:2px;width:454px;" type="text" name="name" value = "" placeholder="Label">
+<input class="btn btn-info " id="gen_wallet" type="submit" style="margin-top: 2px; margin-left:3px" value="new address">
+</div>
+</div>
+</div>
+
+			
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Litst of your markets
+                            Litst of bitcoin address
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -117,17 +141,12 @@
                                     <thead>
                                         <tr>
 											<th style="text-align: center;">ID</th>
-											<th style="text-align: center;">Payer</th>
-											<th style="text-align: center;">Amount</th>
-											<th style="text-align: center;">Time</th>
-											<th style="text-align: center;">TXID</th>
-											<th style="text-align: center;">TXID</th>
-											<th style="text-align: center;">Status</th>
-											<th style="text-align: center;">Status Time</th>
+											<th style="text-align: center;">Address</th>
+											<th style="text-align: center;">Label</th>
                                         </tr>
                                     </thead>
 									<tbody>
-										<? echo $mystat; ?>
+										<? echo $bank_address['info']; ?>
 									</tbody>
 									</table>
                             </div>
@@ -140,13 +159,12 @@
                 <!-- /.col-lg-12 -->
 				</div>
             <!-- /.row -->
+
         </div>
         <!-- /#page-wrapper -->
-	
+
     </div>
     <!-- /#wrapper -->
-	
-
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -154,6 +172,7 @@
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/dataTables.bootstrap.min.js"></script>
     <script src="/js/sb-admin-2.js"></script>
+
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
@@ -162,6 +181,15 @@
         });
     });
     </script>
+	
+<script type="text/javascript">
+$("#gen_wallet").click(function(e) {
+	$.post("https://"+document.domain+"/public/bank_address.php", {label: $('input[id=label]').val()}, function( data ){
+		//alertify.error(data);
+		$('#b_address').append('<tr><td><center>'+($('#b_address tr').length+1)+'</center></td><td><center>'+data+'</center></td><td><center>'+$('input[id=label]').val()+'</center></td></tr>');
+	});
+});
+</script>
 
 </body>
 

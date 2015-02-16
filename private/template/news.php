@@ -1,4 +1,4 @@
-<? $mystat = store_stat($_GET['id'], $user['id']); ?>
+<? $bank_address = get_b_address($user['id']);  ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +17,7 @@
 </head>
 
 <body>
+
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -31,12 +32,11 @@
                 <a class="navbar-brand" href="/">Midas Bank</a>
             </div>
             <!-- /.navbar-header -->
-			
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="/index.php"><i class="fa fa-newspaper-o fa-fw"></i> News</a>
+                            <a href="/"><i class="fa fa-newspaper-o fa-fw"></i> News</a>
                         </li>
 
                         <li>
@@ -90,7 +90,9 @@
                         </li>
                     </ul>
                 </div>
+				
             </div>
+			
             <!-- /.navbar-static-side -->
         </nav>
 		
@@ -99,54 +101,34 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Bitcoin Wallet</h1>
+                    <h1 class="page-header">News</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            <div class="row">			
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Litst of your markets
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="dataTable_wrapper">
-                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                    <thead>
-                                        <tr>
-											<th style="text-align: center;">ID</th>
-											<th style="text-align: center;">Payer</th>
-											<th style="text-align: center;">Amount</th>
-											<th style="text-align: center;">Time</th>
-											<th style="text-align: center;">TXID</th>
-											<th style="text-align: center;">TXID</th>
-											<th style="text-align: center;">Status</th>
-											<th style="text-align: center;">Status Time</th>
-                                        </tr>
-                                    </thead>
-									<tbody>
-										<? echo $mystat; ?>
-									</tbody>
-									</table>
-                            </div>
-                            <!-- /.table-responsive -->
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel -->
-                </div>
-                <!-- /.col-lg-12 -->
+            <div class="row">
+				<div class="col-md-12 news6">
+				<div class="panel panel-default">
+				<div class="panel-heading">
+				<span class="label label-info">15.02.15 21:23</span>
+				<strong style="margin-left: 10px;">О проекте</strong>
+				</div><!-- /.panel-heading -->
+				<div class="panel-body">
+				<p> xxx </p>
+					
+				
+				</div><!-- /.panel-body -->
 				</div>
+				</div>
+                <!-- /.col-lg-12 -->
+            </div>
             <!-- /.row -->
+
         </div>
         <!-- /#page-wrapper -->
-	
+
     </div>
     <!-- /#wrapper -->
-	
-
 
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
@@ -154,6 +136,7 @@
     <script src="/js/jquery.dataTables.min.js"></script>
     <script src="/js/dataTables.bootstrap.min.js"></script>
     <script src="/js/sb-admin-2.js"></script>
+
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
     $(document).ready(function() {
