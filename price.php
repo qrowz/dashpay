@@ -1,8 +1,6 @@
 <?
-
-//echo password_hash('xxx', PASSWORD_DEFAULT, ['cost' => 12]);
 $cache = new Memcache();
-$cache->connect('unix:///var/www/memcached.socket', 0, 30);
+$cache->connect('unix:///tmp/memcached.socket', 0, 30);
 
 
 function cache_price($name, $val){

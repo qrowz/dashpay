@@ -13,9 +13,5 @@ switch(@$_GET['do']){
 
 	case 'stat': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/stat.php'); break;
 	case 'market': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/market.php'); break;
-	case 'bank': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/bank.php'); break;
-	
-	case 'btc_wallet': require_once($_SERVER['DOCUMENT_ROOT'].'/private/template/btc_wallet.php'); break;
-	
 	case 'exit': _exit(); break;
 }

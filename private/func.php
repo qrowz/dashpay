@@ -1,38 +1,4 @@
 <?
-
-
-function get_b_address($uid){
-
-	global $db; $i = ''; $j = 0;
-	$query = $db->prepare("SELECT * FROM `bank` WHERE `uid` = :uid ORDER BY `id`");
-	$query->bindParam(':uid', $uid, PDO::PARAM_STR);
-	$query->execute();
-
-	while($row = $query->fetch()){
-		$j++;
-		$i = $i."<tr>
-				<td><center>$j</center></td>
-				<td><center>{$row['address']}</center></td>
-				<td><center>{$row['label']}</center></td>
-				</tr>";
-	}
-	
-	return ["info" => $i];
-}
-
-function bank_address($label, $uid){
-	global $db, $bitcoin;
-	
-	$address = $bitcoin->getnewaddress();
-	$query = $db->prepare("INSERT INTO `bank` (`uid`, `address`, `label`) VALUES ( :uid, :address, :label )");
-	$query->bindParam(':uid', $uid, PDO::PARAM_STR);
-	$query->bindParam(':address', $address, PDO::PARAM_STR);
-	$query->bindParam(':label', $label, PDO::PARAM_STR);
-	$query->execute();
-	
-	return $address;
-}
-
 function midas_crypt($a, $key, $text){
 	$algo = MCRYPT_RIJNDAEL_256;
 	$mode = MCRYPT_MODE_CBC;
@@ -57,7 +23,6 @@ function midas_crypt($a, $key, $text){
 	return $j;
 }
 
-
 function midas_query($link, $post){
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL,$link);
@@ -76,7 +41,7 @@ function midas_query($link, $post){
 }
 
 function payout(){
-	global $db, $bitcoin;
+	global $db, $dash;
 	$query = $db->prepare("SELECT * FROM `income` WHERE `status` = 'complete'");
 	$query->execute();
 	
@@ -93,7 +58,7 @@ function payout(){
 		
 		echo "{$out['address']} => {$row['balance']}";
 		
-		//$u = $bitcoin->getinfo();
+		//$u = $dash->getinfo();
 		
 		//var_dump($u);
 		
@@ -103,7 +68,7 @@ function payout(){
 		
 		//var_dump($send_coins);
 		
-		$txid = $bitcoin->sendtoaddress($address, $send_coins);
+		$txid = $dash->sendtoaddress($address, $send_coins);
 		
 		$update = $db->prepare("UPDATE `income` SET `status` = 'payout', `out` =:txid, `time2` = :time WHERE `id` = :id");
 		$update->bindParam(':time', time(), PDO::PARAM_STR);
@@ -224,7 +189,7 @@ function balance($a){
 
 
 function gen_address($sid, $pid){
-	global $db, $bitcoin;
+	global $db, $dash;
 	$query = $db->prepare("SELECT * FROM `address` WHERE `sid` = :sid AND `pid` = :pid");
 	$query->bindParam(':sid', $sid, PDO::PARAM_STR);
 	$query->bindParam(':pid', $pid, PDO::PARAM_STR);
@@ -233,7 +198,7 @@ function gen_address($sid, $pid){
 	$address = $row['address'];
 	
 	if($query->rowCount() != 1){ 
-		$address = $bitcoin->getnewaddress();
+		$address = $dash->getnewaddress();
 		$query = $db->prepare("INSERT INTO `address` (`address`, `sid`, `pid`) VALUES ( :address, :sid, :pid )");
 		$query->bindParam(':address', $address, PDO::PARAM_STR);
 		$query->bindParam(':sid', $sid, PDO::PARAM_STR);

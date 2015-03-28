@@ -5,7 +5,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/auth.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/wallets.php');
 
-$isvalid = $bitcoin->validateaddress($_POST['address']);
+$isvalid = $dash->validateaddress($_POST['address']);
 	if(!$isvalid['isvalid']) die("invalid");
 	
 $query = $db->prepare("UPDATE `users` SET `address` =:address WHERE `id` = :id");
