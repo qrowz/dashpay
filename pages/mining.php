@@ -65,7 +65,7 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			</a>
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
-				<li><a href="#">Новости</a></li>
+				<li><a href="/pages/news.php">Новости</a></li>
 				<li><a href="/pages/download.php">Скачать кошелек</a></li>
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li class="active"><a href="/pages/mining.php">Майнинг</a></li>

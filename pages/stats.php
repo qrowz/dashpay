@@ -178,7 +178,7 @@ foreach ($pools_stats as $key => $value) {
 			</a>
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
-				<li><a href="#">Новости</a></li>
+				<li><a href="/pages/news.php">Новости</a></li>
 				<li><a href="/pages/download.php">Скачать кошелек</a></li>
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li><a href="/pages/mining.php">Майнинг</a></li>
