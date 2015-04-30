@@ -66,11 +66,11 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
 				<li><a href="#">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать</a></li>
+				<li><a href="/pages/download.php">Скачать кошелек</a></li>
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li class="active"><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="#">Биржа</a></li>
-				<li><a href="#">Процессинг</a></li>
+				<li><a href="/pages/trade.php">Биржа</a></li>
+				<li><a href="/pages/merchant.php">Процессинг</a></li>
 				<li><a href="/pages/stats.php">Статистика</a></li>
 			</ul>
 		</div>
@@ -87,7 +87,13 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			Выпуском новых монет занимается огромное количество людей. Если вы занимаетесь этим самостоятельно и не имете большой мощности, то может пройти много времени (месяцы и более), прежде чем вы получите награду.
 			Участие в работе пула дает вам возможность зарабатывать понемногу, но зато регулярно, минимизируя для себя влияние удачи и риски месяцами ничего не заработать. Если у вас нет в наличии фермы из десятков или сотен видеокарт, участие в работе пула для вас единственный способ зарабатывать DASH.<br/><br/>
 			Существует два типа пулов: централизованные и децентрализованные. Последние принято называть p2pool.<br/>
-			Вы можете <a href="/pages/stats.php" target="_blank">выбрать любой централизованный</a> и начать добывать монеты. Но мы рекомендуем вам это делать на <a href="/pages/stats.php" target="_blank">децентрализованных пулах</a>.<br/>
+			Вы можете выбрать любой централизованный, например: <a href="https://coinmine.pl/dash/index.php" target="_blank">coinmine</a>, <a href="http://dark.coinobox.ru/" target="_blank">coinobox</a>, <a href="http://darkcoin.miningpoolhub.com/" target="_blank">miningpoolhub</a> или <a href="http://simplemulti.com/" target="_blank">simplemulti</a>.<br/>
+			Мы рекомендуем использовать <a href="/pages/stats.php" target="_blank">децентрализованные пулы</a> или выбирать обычный пул со среднем hashrate.<br/>
+			
+			<hr>
+			<img src="/stat/drk.png">
+			
+			
 			<hr>
 			<h3>Калькулятор</h3>
 			Вы можете посчитать приблизительный доход в рублях. Вводите только цифры. Десятичные - через точку.<br/>

@@ -19,11 +19,11 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
 				<li><a href="#">Новости</a></li>
-				<li class="active"><a href="/pages/download.php">Скачать</a></li>
+				<li class="active"><a href="/pages/download.php">Скачать кошелек</a></li>
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="#">Биржа</a></li>
-				<li><a href="#">Процессинг</a></li>
+				<li><a href="/pages/trade.php">Биржа</a></li>
+				<li><a href="/pages/merchant.php">Процессинг</a></li>
 				<li><a href="/pages/stats.php">Статистика</a></li>
 			</ul>
 		</div>

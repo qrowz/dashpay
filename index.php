@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -19,11 +20,11 @@
 	  <ul class="nav navbar-nav">
 		   <li class="active"><a href="#">Главная</a></li>
 		   <li><a href="#">Новости</a></li>
-		   <li><a href="/pages/download.php">Скачать</a></li>
+		   <li><a href="/pages/download.php">Скачать кошелек</a></li>
 		   <li><a href="/pages/community.php">Сообщество</a></li>
 		   <li><a href="/pages/mining.php">Майнинг</a></li>
-		   <li><a href="#">Биржа</a></li>
-		   <li><a href="#">Процессинг</a></li>
+		   <li><a href="/pages/trade.php">Биржа</a></li>
+		   <li><a href="/pages/merchant.php">Процессинг</a></li>
 		   <li><a href="/pages/stats.php">Статистика</a></li>
 	   </ul>
     </div>
@@ -32,37 +33,68 @@
   
 <div class="container">
   <div class="jumbotron">
-    <h1>My first Bootstrap website!</h1>      
-    <p>This page will grow as we add more and more components from Bootstrap...</p>      
+  <center>
+    <h3>DASH – это приватная криптовалюта с открытым <a href="https://github.com/dashpay/dash" target="_blank">исходным кодом</a>.</h3>      
+    <p>
+Позволяет производить платежи мгновенно, без ограничений и комиссии, сохраняя при этом такую же финансовую анонимность, как при расчётах наличным деньгам.</p></center>
   </div>
 
-  <div class="row">
-    <div class="col-md-3">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </div>
-    <div class="col-md-3"> 
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
-    <div class="col-md-3"> 
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-    </div>
-    <div class="col-md-3">
-      <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#">Home</a></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu 1 <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Submenu 1-1</a></li>
-            <li><a href="#">Submenu 1-2</a></li>
-            <li><a href="#">Submenu 1-3</a></li>                        
-          </ul>
-        </li>
-        <li><a href="#">Menu 2</a></li>
-        <li><a href="#">Menu 3</a></li>
-      </ul>
-    </div>
-    <div class="clearfix visible-lg"></div>
-  </div>
+
+			<div class="row">
+<div class="col-md-12">
+				<div class="col-md-4">
+					<center>
+					<i class="fa fa-eye-slash fa-5x"></i>
+					<h4>ПРИВАТНОСТЬ</h4>
+					Благодаря технологии Darksend, никто не может следить за вашими транзакциями и деньгами.
+					
+					</center>
+				</div>
+				
+								<div class="col-md-4">
+					<center>
+					<i class="fa fa-clock-o fa-5x"></i>
+					<h4>СКОРОСТЬ</h4>
+					Денежные переводы приходят получателям мгновенно, благодаря технологии InstantX.
+					</center>
+				</div>
+				
+								<div class="col-md-4">
+					<center>
+					<i class="fa fa-lock fa-5x"></i>
+					<h4>БЕЗОПАСНОСТЬ</h4>
+					Шифрование и 2-х ранговая архитектура сети обеспечивают абсолютную безопасность.
+					</center>
+				</div>
+				</div>
+				
+				<div class="col-md-12" style="padding-top: 20px;">
+								<div class="col-md-4">
+					<center>
+					<i class="fa fa-money fa-5x"></i>
+					<h4>НИЗКИЕ КОМИССИИ</h4>
+					Комиссии значительно меньше, чем при банковских и карточных переводах – часто даже бесплатно.
+					</center>
+				</div>
+				
+				<div class="col-md-4">
+					<center>
+					<i class="fa fa-users fa-5x"></i>
+					<h4>ДЕЦЕНТРАЛИЗАЦИЯ</h4>
+					DASH работает через децентрализованную сеть – все платежи совершаются без какого-либо контроля и посредников.
+					</center>
+				</div>
+				
+				<div class="col-md-4">
+					<center>
+					<i class="fa fa-globe fa-5x"></i>
+					<h4>БЕЗГРАНИЧНОСТЬ</h4>
+					Вы можете получать и отправлять деньги из любой точки мира – кому угодно, без ограничений.
+					</center>
+				</div>
+
+			</div>
+
 </div>
 
 </body>

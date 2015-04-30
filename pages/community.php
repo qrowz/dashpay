@@ -19,11 +19,11 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/">Главная</a></li>
 				<li><a href="#">Новости</a></li>
-				<li><a href="/pages/download.php">Скачать</a></li>
+				<li><a href="/pages/download.php">Скачать кошелек</a></li>
 				<li class="active"><a href="/pages/community.php">Сообщество</a></li>
 				<li><a href="/pages/mining.php">Майнинг</a></li>
-				<li><a href="#">Биржа</a></li>
-				<li><a href="#">Процессинг</a></li>
+				<li><a href="/pages/trade.php">Биржа</a></li>
+				<li><a href="/pages/merchant.php">Процессинг</a></li>
 				<li><a href="/pages/stats.php">Статистика</a></li>
 			</ul>
 		</div>
@@ -39,16 +39,16 @@
 			<h3>Форумы и социальные сети</h3>
 			<div class="row">
 				<div class="col-md-3">
-					<img src="//dash.org.ru/img/dashtalk_logo.png">
+					<a href="https://dashtalk.org/forums/russkij-russian.27/" target="_blank"><img src="//dash.org.ru/img/dashtalk_logo.png"></a>
 				</div>
 				<div class="col-md-3">
-					<img src="//dash.org.ru/img/bitcoin_security.png">   
+					<a href="https://forum.bits.media/index.php?/topic/5740-dash-darkcoin/" target="_blank"><img src="//dash.org.ru/img/bitcoin_security.png"></a>
 				</div>
 				<div class="col-md-3">
-					<img src="//www.dashpay.io/wp-content/uploads/2014/09/reddit_logo.png"> 
+					<a href="https://www.reddit.com/r/dashpay" target="_blank"><img src="//www.dashpay.io/wp-content/uploads/2014/09/reddit_logo.png"></a>
 				</div>
 				<div class="col-md-3">
-					<img src="//dash.org.ru/img/bitcointalk_logo.png">
+					<a href="https://bitcointalk.org/index.php?topic=421615.0" target="_blank"><img src="//dash.org.ru/img/bitcointalk_logo.png"></a>
 				</div>
 			</div>
 			<hr/>
