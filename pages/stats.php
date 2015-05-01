@@ -15,26 +15,26 @@ while($row=$query->fetch()){
 	$mntable = $mntable."<tr><td>{$row['ip']}</td><td>{$row['port']}</td><td>{$row['status']}</td><td><img src=\"https://dash.org.ru/img/16/".mb_strtolower(geoip_country_code_by_name($row['ip'])).".png\"> ".geoip_country_name_by_name($row['ip'])."</td><td>{$row['version']}</td><td><a href=\"https://chainz.cryptoid.info/dash/address.dws?{$row['address']}.htm\" target=\"_blank\">{$row['address']}</a></td></tr>";
 }
 
-$query = $db->prepare("select sum(tx_sum), sum(txs), time from `data` group by month(from_unixtime(`time`))");
+$query = $db->prepare("select sum(tx_sum), sum(txs), time from `data` group by month(from_unixtime(`time`)) order by `time` desc");
 $query->execute();
 while($row=$query->fetch()){
 	$transaction_table = $transaction_table."<tr><td>".date("Y, F" ,$row['time'])."</td><td>".round($row['sum(tx_sum)'])."</td><td>{$row['sum(txs)']}</td></tr>";
 }
 
-$query = $db->prepare("select sum(tx_sum), time from `data` group by day(from_unixtime(`time`))");
+$query = $db->prepare("select sum(tx_sum), time from `data` group by day(from_unixtime(`time`)) order by `time` asc");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row["sum(tx_sum)"])) continue;
 	$tx_rate = "$tx_rate [{$row['time']}000, ".round($row["sum(tx_sum)"])."],";
 }
 
-$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by day(from_unixtime(`time`))");
+$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by day(from_unixtime(`time`)) order by `time` asc");
 $query->execute();
 while($row=$query->fetch()){
 	$data_market = "$data_market [{$row['time']}000, ".round($row["avg(value)"])."],";
 }
 
-$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by month(from_unixtime(`time`))");
+$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by month(from_unixtime(`time`)) order by `time` desc");
 $query->execute();
 while($row=$query->fetch()){
 	$number = date("j", $row['time']);
@@ -52,11 +52,11 @@ while($row=$query->fetch()){
 	if($query_select->rowCount() != 1){
 		$row_label['label'] = 'Unknown';
 	}
-	$block_table = $block_table."<tr><td>{$row['bid']}</td><td><a href=\"https://chainz.cryptoid.info/dash/address.dws?{$row['address']}.htm\" target=\"_blank\">{$row_label['label']}</a></td><td>{$row['diff']}</td><td>".blockreward_all($row['bid'], $row['diff'])."</td><td>{$row['txs']}</td><td>".round($row['tx_sum'], 2)."</td><td>".secondsToTime(time()-$row['time'])."</td></tr>";
+	$block_table = $block_table."<tr><td><a href=\"https://chainz.cryptoid.info/dash/block.dws?{$row['bid']}.htm\" target=\"_blank\">{$row['bid']}</a></td><td><a href=\"https://chainz.cryptoid.info/dash/address.dws?{$row['address']}.htm\" target=\"_blank\">{$row_label['label']}</a></td><td>{$row['diff']}</td><td>".blockreward_all($row['bid'], $row['diff'])."</td><td>{$row['txs']}</td><td>".round($row['tx_sum'], 2)."</td><td>".secondsToTime(time()-$row['time'])."</td></tr>";
 	unset($row_label);
 }
 
-$query = $db->prepare("select avg(count), time from `mn_count` group by day(from_unixtime(`time`))");
+$query = $db->prepare("select avg(count), time from `mn_count` group by day(from_unixtime(`time`)) order by `time` asc");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row['avg(count)'])) continue;
@@ -97,7 +97,7 @@ foreach ($markets as $key => $value) {
 	$mtable = $mtable."<tr><td><a href=\"{$value['url']}\" target=\"_blank\">{$key}</a></td><td>$ {$value['val']}</td><td> {$market_percent}%</td><td>$ {$value['price']}</td></tr>";
 }
 
-$query = $db->prepare("select avg(diff), time from `data` group by day(from_unixtime(`time`))");
+$query = $db->prepare("select avg(diff), time from `data` group by day(from_unixtime(`time`)) order by `time` asc");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row['avg(diff)'])) continue;
@@ -332,7 +332,7 @@ foreach ($pools_stats as $key => $value) {
 						</tbody>
 					</table>
 				</div>
-			</div>
+			</div>		
 		</div>
 	</div>
 </div>
