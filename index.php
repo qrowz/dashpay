@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Case</title>
+  <title>DASH</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <meta name='yandex-verification' content='742a6c088fb60ae6' />
 </head>
 <body>
 
@@ -24,8 +25,9 @@
 		   <li><a href="/pages/community.php">Сообщество</a></li>
 		   <li><a href="/pages/mining.php">Майнинг</a></li>
 		   <li><a href="/pages/trade.php">Биржа</a></li>
-		   <li><a href="/pages/merchant.php">Процессинг</a></li>
+		   <li><a href="/pages/merchant.php">Прием платежей</a></li>
 		   <li><a href="/pages/stats.php">Статистика</a></li>
+		   <li><a href="https://wiki.dash.org.ru" target="_blank">База знаний</a></li>
 	   </ul>
     </div>
   </div>
@@ -36,7 +38,7 @@
   <center>
     <h3>DASH – это приватная криптовалюта с открытым <a href="https://github.com/dashpay/dash" target="_blank">исходным кодом</a>.</h3>      
     <p>
-Позволяет производить платежи мгновенно, без ограничений и комиссии, сохраняя при этом такую же финансовую анонимность, как при расчётах наличным деньгам.</p></center>
+Позволяет производить платежи мгновенно, без ограничений и комиссии.<br/> Сохраняя при этом такую же финансовую анонимность, как при расчётах наличным деньгам.</p></center>
   </div>
 
 

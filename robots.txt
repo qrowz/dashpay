@@ -1,0 +1,22 @@
+User-agent: Yandex
+Allow: /$
+Allow: /pages/news.php
+Allow: /pages/download.php
+Allow: /pages/community.php
+Allow: /pages/mining.php
+Allow: /pages/trade.php
+Allow: /pages/merchant.php
+Allow: /pages/stats.php
+Disallow: /
+Host: dash.org.ru
+
+User-agent: *
+Allow: /$
+Allow: /pages/news.php
+Allow: /pages/download.php
+Allow: /pages/community.php
+Allow: /pages/mining.php
+Allow: /pages/trade.php
+Allow: /pages/merchant.php
+Allow: /pages/stats.php
+Disallow: /

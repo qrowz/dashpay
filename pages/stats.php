@@ -37,11 +37,15 @@ while($row=$query->fetch()){
 $query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by month(from_unixtime(`time`)) order by `time` desc");
 $query->execute();
 while($row=$query->fetch()){
-	$number = date("j", $row['time']);
+	if(date("n", $row['time']) == date("n", time())){
+		$number = date("j", time());
+	}else{
+		$number = date("j", $row['time']);
+	}
 	$table_market = $table_market."<tr><td>".date("Y, F", $row['time'])."</td><td>".round($row["avg(value)"]/$row["avg(usd)"]*$number)."</td><td>".round($row["avg(value)"]*$number)."</td></tr>";
 }
 
-$query = $db->prepare("SELECT * FROM `data`");
+$query = $db->prepare("SELECT * FROM `data` order by `time` desc LIMIT 100");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row['txs'])) continue;
@@ -68,20 +72,21 @@ $query->execute();
 while($row=$query->fetch()){
 	$table = $table."<tr><td><a href='http://{$row['ip']}:7903' target='_blank'>{$row['ip']}:7903</a></td><td><img src=\"https://dash.org.ru/img/16/".mb_strtolower(geoip_country_code_by_name($row['ip'])).".png\"> {$row['country']}</td><td>{$row['users']}</td><td>".ghash($row['hash'])."</td><td>{$row['fee']}</td><td>".secondsToTime($row['uptime'])."</td></tr>";
 }
-$query = $db->prepare("SELECT * FROM `global` order by `time` asc");
+$query = $db->prepare("SELECT avg(hash), avg(ghash), time FROM `global` group by day(from_unixtime(`time`)) order by `time` asc"); // order by `time` asc 
 $query->execute();
 while($row=$query->fetch()){
-	$hash_rate = "$hash_rate [{$row['time']}000, {$row['hash']}],";
-	if($row['ghash'] != 0){
-		$ghash_rate = "$ghash_rate [{$row['time']}000, {$row['ghash']}],";
+	$hash_rate = "$hash_rate [{$row['time']}000, {$row['avg(hash)']}],";
+	if($row['time'] < 1430193602) continue;
+	if($row['avg(ghash)'] != 0){
+		$ghash_rate = "$ghash_rate [{$row['time']}000, {$row['avg(ghash)']}],";
 	}
 }
 
-$query = $db->prepare("SELECT * FROM `price` order by `time` asc");
+$query = $db->prepare("SELECT avg(price), time FROM `price` group by day(from_unixtime(`time`)) order by `time` asc");
 $query->execute();
 while($row=$query->fetch()){
-	if(empty($row['price'])) continue;
-	$price_usd = "$price_usd [{$row['time']}000, {$row['price']}],";
+	if(empty($row['avg(price)'])) continue;
+	$price_usd = "$price_usd [{$row['time']}000, ".round($row['avg(price)'], 2)."],";
 }
 
 foreach ($markets as $key => $value) {
@@ -148,6 +153,17 @@ uasort($pools_stats, 'myCmp');
 foreach ($pools_stats as $key => $value) {
 	$tpools = $tpools."<tr><td>{$value['name']}</td><td>{$value['blocks']}</td><td>{$value['reward']}</td><td>".auto_hash($value['hashrate'])."</td><td>{$value['percent']} %</td></tr>";
 }
+
+
+$j = 5; $coins = 5300000; $em_table = '<tr><td>2014</td><td>0</td><td>5300000</td><td>100</td><td>25.2</td></tr>'; $em_data = "0,"; $em_data_new = "5300000, ";
+for ($i=1; $i<50; $i++) {
+	$j -= $j/14;
+	$p = 210240*$j;
+	$coins = $coins + $p;
+	$em_table = $em_table."<tr><td>".(2014+$i)."</td><td>".round($coins)."</td><td>".round($p)."</td><td>".round($p*100/($coins-$p), 2)."</td><td>".round($j, 2)."</td></tr>";
+	$em_data = $em_data.round($coins).",";
+	$em_data_new = $em_data_new.round($p).",";
+}
 ?>
 
 <!DOCTYPE html>
@@ -183,8 +199,9 @@ foreach ($pools_stats as $key => $value) {
 				<li><a href="/pages/community.php">Сообщество</a></li>
 				<li><a href="/pages/mining.php">Майнинг</a></li>
 				<li><a href="/pages/trade.php">Биржа</a></li>
-				<li><a href="/pages/merchant.php">Процессинг</a></li>
+				<li><a href="/pages/merchant.php">Прием платежей</a></li>
 				<li class="active"><a href="/pages/stats.php">Статистика</a></li>
+				<li><a href="https://wiki.dash.org.ru" target="_blank">База знаний</a></li>
 			</ul>
 		</div>
 	</div>
@@ -199,6 +216,7 @@ foreach ($pools_stats as $key => $value) {
 			<li role="presentation"><a href="#masternode" aria-controls="masternode" role="tab" data-toggle="tab">Мастерноды</a></li>
 			<li role="presentation"><a href="#transaction" aria-controls="transaction" role="tab" data-toggle="tab">Транзакции</a></li>
 			<li role="presentation"><a href="#trade" aria-controls="trade" role="tab" data-toggle="tab">Обьем торгов</a></li>
+			<li role="presentation"><a href="#emission" aria-controls="emission" role="tab" data-toggle="tab">Эмиссия</a></li>
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade in active" id="price">
@@ -332,13 +350,79 @@ foreach ($pools_stats as $key => $value) {
 						</tbody>
 					</table>
 				</div>
-			</div>		
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="emission">
+				<div class="panel-body">
+					<div id="container8" style="height: 300px; width: 1110px;"></div>
+					<table class="table table-striped table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Year</th>
+								<th>All</th>
+								<th>This year</th>
+								<th>Emission %</th>
+								<th>Reward</th>
+							</tr>
+						</thead>
+						<tbody>
+							<? echo $em_table; ?>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
 <script>
 $(function () {
 	$('#myTab a[href="'+window.location.hash+'"]').tab('show');
+	$('#container8').highcharts({
+		chart: { zoomType: 'x' },
+		credits:	{ enabled: false },
+		exporting:	{ enabled: false },
+		title: { text: '' },
+		xAxis: {  type: 'datetime' },
+		legend:{ enabled: false },
+		yAxis: {
+			title: { text: 'All' },
+			min: 0,
+		},
+		plotOptions: {
+			area: {
+				fillColor: {
+					linearGradient: { 
+						x1: 0, y1: 0, x2: 0, y2: 1},
+						stops: [[0, Highcharts.getOptions().colors[0]],
+								[1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]]
+					},
+					marker: { radius: 2 },
+					lineWidth: 1,
+					states: {
+						hover: { lineWidth: 1 }
+					},
+					threshold: null
+				}
+			},	
+        tooltip: {
+            xDateFormat: '<b>Year:</b> %Y',
+            shared: true
+        },
+		series: [{
+			type: 'area',
+			name: 'Coins',
+			pointInterval: 365.24 * 24 * 3600 * 1000,
+            pointStart: Date.UTC(2014, 0, 1),
+			data: [  <? echo $em_data; ?> ]
+		},
+		{
+			type: 'area',
+			name: 'Emission',
+			fillColor: '#1F77BD',
+			pointInterval: 365.24 * 24 * 3600 * 1000,
+            pointStart: Date.UTC(2014, 0, 1),
+			data: [  <? echo $em_data_new; ?> ]
+		}]
+	}); 
 	$('#container7').highcharts({
 		chart: { zoomType: 'x' },
 		credits:	{ enabled: false },
@@ -633,7 +717,7 @@ $(function () {
 			name: 'Hashrate',
 			data: [<? echo $hash_rate; ?>]
 		}]
-	});
+	})
 });
 </script>
 </body>
