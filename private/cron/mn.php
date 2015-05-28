@@ -5,9 +5,10 @@ require_once('/var/www/midas/root/private/class/jsonRPCClient.php');
 
 $darkcoin = new jsonRPCClient('http://xxxx:yyyy@127.0.0.1:9998/');
 $list_nodes = $darkcoin->masternodelist('full');
+$count_nodes = $darkcoin->masternode('count');
 
 $query = $db->prepare("INSERT INTO `mn_count` (`count`, `time`) VALUES (:count, :time)");
-$query->bindParam(':count', count($list_nodes), PDO::PARAM_STR);
+$query->bindParam(':count', $count_nodes, PDO::PARAM_STR);
 $query->bindParam(':time', time(), PDO::PARAM_STR);
 $query->execute();
 

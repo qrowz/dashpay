@@ -60,11 +60,27 @@ while($row=$query->fetch()){
 	unset($row_label);
 }
 
-$query = $db->prepare("select avg(count), time from `mn_count` group by day(from_unixtime(`time`)) order by `time` asc");
+$mn_arr = array();
+//$query = $db->prepare("select avg(count), MIN(time) from `mn_count` group by day(from_unixtime(`time`)) order by `time` DESC"); // order by `time` DESC asc
+$query = $db->prepare("SELECT * FROM `mn_count`");
 $query->execute();
 while($row=$query->fetch()){
-	if(empty($row['avg(count)'])) continue;
-	$mn_count = "$mn_count [{$row['time']}000, ".round($row['avg(count)'])."],";
+	//if(empty($row['avg(count)'])) continue;
+	//echo $row['time']." =>".round($row['avg(count)'])."<br/>";
+	//$mn_count = "$mn_count [{$row['time']}000, ".round($row['avg(count)'])."],";
+	
+	if(empty($row['count'])) continue;	
+	$p = date("Y-m-d", $row['time']);
+	if(!array_key_exists($p, $mn_arr)){
+		$mn_arr[$p] = [ $row['count'], 1];	
+	}else{
+		$mn_arr[$p] = [$mn_arr[$p][0]+$row['count'], $mn_arr[$p][1]+1];
+	}	
+}
+
+foreach($mn_arr as $key => $value){
+	//echo $key." => ".strtotime($key)." => ".round($value[0]/$value[1])."<br/>";
+	$mn_count = "$mn_count [".strtotime($key)."000, ".round($value[0]/$value[1])."],";
 }
 
 $query = $db->prepare("SELECT * FROM `node`");
@@ -522,6 +538,7 @@ $(function () {
 			type: 'area',
 			name: 'Количество',
 			data: [<? echo $mn_count; ?>]
+			//data: [[1432526402000, 2376], [1432440001000, 2371], [1432353602000, 2360]]
 		}]
 	});		
 
