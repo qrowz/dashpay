@@ -61,16 +61,24 @@ while($row=$query->fetch()){
 }
 
 $mn_arr = array();
-//$query = $db->prepare("select avg(count), MIN(time) from `mn_count` group by day(from_unixtime(`time`)) order by `time` DESC"); // order by `time` DESC asc
-$query = $db->prepare("SELECT * FROM `mn_count`");
+//$query = $db->prepare("select avg(count), time from `mn_count` group by day(from_unixtime(`time`)) order by `time` DESC"); // order by `time` DESC asc
+//$query = $db->prepare("select avg(count), sum(count) / COUNT(count), date(from_unixtime(`time`)) as dateNum from mn_count group by dateNum");
+$query = $db->prepare("select avg(count), date(from_unixtime(`time`)) as dateNum from mn_count group by dateNum");
+//$query = $db->prepare("SELECT * FROM `mn_count`");
 $query->execute();
+//echo $query->rowCount();
 while($row=$query->fetch()){
 	//if(empty($row['avg(count)'])) continue;
 	//echo $row['time']." =>".round($row['avg(count)'])."<br/>";
 	//$mn_count = "$mn_count [{$row['time']}000, ".round($row['avg(count)'])."],";
 	
-	if(empty($row['count'])) continue;	
-	$p = date("Y-m-d", $row['time']);
+		//echo $row['time']." =>".round($row['avg(count)'])."<br/>";
+		
+//	echo $row['dateNum']." => ".$row['avg(count)']."<br/>";
+	$mn_count = "$mn_count [".strtotime($row['dateNum'])."000, ".round($row['avg(count)'])."],";
+	
+	//if(empty($row['count'])) continue;	
+/*	$p = date("Y-m-d", $row['time']);
 	if(!array_key_exists($p, $mn_arr)){
 		$mn_arr[$p] = [ $row['count'], 1];	
 	}else{
@@ -78,10 +86,17 @@ while($row=$query->fetch()){
 	}	
 }
 
+
+
 foreach($mn_arr as $key => $value){
 	//echo $key." => ".strtotime($key)." => ".round($value[0]/$value[1])."<br/>";
 	$mn_count = "$mn_count [".strtotime($key)."000, ".round($value[0]/$value[1])."],";
+	
+	echo "$key => ".strtotime($key)." => $value[0] / $value[1] => ".round($value[0]/$value[1])." <br/>";
+	*/
 }
+
+//echo $mn_count;
 
 $query = $db->prepare("SELECT * FROM `node`");
 $query->execute();
@@ -391,7 +406,14 @@ for ($i=1; $i<50; $i++) {
 </div>
 <script>
 $(function () {
+	    Highcharts.setOptions({
+        global: {
+            timezoneOffset: -(3 * 60)
+        }
+    });
 	$('#myTab a[href="'+window.location.hash+'"]').tab('show');
+	
+
 	$('#container8').highcharts({
 		chart: { zoomType: 'x' },
 		credits:	{ enabled: false },
