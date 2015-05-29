@@ -15,26 +15,32 @@ while($row=$query->fetch()){
 	$mntable = $mntable."<tr><td>{$row['ip']}</td><td>{$row['port']}</td><td>{$row['status']}</td><td><img src=\"https://dash.org.ru/img/16/".mb_strtolower(geoip_country_code_by_name($row['ip'])).".png\"> ".geoip_country_name_by_name($row['ip'])."</td><td>{$row['version']}</td><td><a href=\"https://chainz.cryptoid.info/dash/address.dws?{$row['address']}.htm\" target=\"_blank\">{$row['address']}</a></td></tr>";
 }
 
-$query = $db->prepare("select sum(tx_sum), sum(txs), time from `data` group by month(from_unixtime(`time`)) order by `time` desc");
+//$query = $db->prepare("select sum(tx_sum), sum(txs), time from `data` group by month(from_unixtime(`time`)) order by `time` desc");
+$query = $db->prepare("select sum(tx_sum), sum(txs), time from `data` group by concat(month(from_unixtime(`time`)),year(from_unixtime(`time`))) order by `time` desc");
 $query->execute();
 while($row=$query->fetch()){
 	$transaction_table = $transaction_table."<tr><td>".date("Y, F" ,$row['time'])."</td><td>".round($row['sum(tx_sum)'])."</td><td>{$row['sum(txs)']}</td></tr>";
 }
 
-$query = $db->prepare("select sum(tx_sum), time from `data` group by day(from_unixtime(`time`)) order by `time` asc");
+//$query = $db->prepare("select sum(tx_sum), time from `data` group by day(from_unixtime(`time`)) order by `time` asc");
+$query = $db->prepare("select sum(tx_sum), date(from_unixtime(`time`)) as dateNum from `data` group by dateNum");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row["sum(tx_sum)"])) continue;
-	$tx_rate = "$tx_rate [{$row['time']}000, ".round($row["sum(tx_sum)"])."],";
+	//$tx_rate = "$tx_rate [{$row['time']}000, ".round($row["sum(tx_sum)"])."],";
+	$tx_rate = "$tx_rate [".strtotime($row['dateNum'])."000, ".round($row["sum(tx_sum)"])."],";
 }
 
-$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by day(from_unixtime(`time`)) order by `time` asc");
+//$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by day(from_unixtime(`time`)) order by `time` asc");
+$query = $db->prepare("select avg(value), avg(usd), date(from_unixtime(`time`)) as dateNum from `data_market` group by dateNum");
 $query->execute();
 while($row=$query->fetch()){
-	$data_market = "$data_market [{$row['time']}000, ".round($row["avg(value)"])."],";
+	//$data_market = "$data_market [{$row['time']}000, ".round($row["avg(value)"])."],";
+	$data_market = "$data_market [".strtotime($row['dateNum'])."000, ".round($row["avg(value)"])."],";
 }
 
-$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by month(from_unixtime(`time`)) order by `time` desc");
+//$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by month(from_unixtime(`time`)) order by `time` desc");
+$query = $db->prepare("select avg(value), avg(usd), time from `data_market` group by concat(month(from_unixtime(`time`)),year(from_unixtime(`time`))) order by `time` desc");
 $query->execute();
 while($row=$query->fetch()){
 	if(date("n", $row['time']) == date("n", time())){
@@ -103,21 +109,27 @@ $query->execute();
 while($row=$query->fetch()){
 	$table = $table."<tr><td><a href='http://{$row['ip']}:7903' target='_blank'>{$row['ip']}:7903</a></td><td><img src=\"https://dash.org.ru/img/16/".mb_strtolower(geoip_country_code_by_name($row['ip'])).".png\"> {$row['country']}</td><td>{$row['users']}</td><td>".ghash($row['hash'])."</td><td>{$row['fee']}</td><td>".secondsToTime($row['uptime'])."</td></tr>";
 }
-$query = $db->prepare("SELECT avg(hash), avg(ghash), time FROM `global` group by day(from_unixtime(`time`)) order by `time` asc"); // order by `time` asc 
+//$query = $db->prepare("SELECT avg(hash), avg(ghash), time FROM `global` group by day(from_unixtime(`time`)) order by `time` asc"); // order by `time` asc
+$query = $db->prepare("select avg(hash), avg(ghash), date(from_unixtime(`time`)) as dateNum from `global` group by dateNum");
 $query->execute();
 while($row=$query->fetch()){
-	$hash_rate = "$hash_rate [{$row['time']}000, {$row['avg(hash)']}],";
-	if($row['time'] < 1430193602) continue;
+	//$hash_rate = "$hash_rate [{$row['time']}000, {$row['avg(hash)']}],";
+	$hash_rate = "$hash_rate [".strtotime($row['dateNum'])."000, {$row['avg(hash)']}],";
+	//if($row['time'] < 1430193602) continue;
 	if($row['avg(ghash)'] != 0){
-		$ghash_rate = "$ghash_rate [{$row['time']}000, {$row['avg(ghash)']}],";
+		//$ghash_rate = "$ghash_rate [{$row['time']}000, {$row['avg(ghash)']}],";
+		if (strtotime($row['dateNum']) < 1429909201) continue;
+		$ghash_rate = "$ghash_rate [".strtotime($row['dateNum'])."000, {$row['avg(ghash)']}],";
 	}
 }
 
-$query = $db->prepare("SELECT avg(price), time FROM `price` group by day(from_unixtime(`time`)) order by `time` asc");
+//$query = $db->prepare("SELECT avg(price), time FROM `price` group by day(from_unixtime(`time`)) order by `time` asc");
+$query = $db->prepare("select avg(price), date(from_unixtime(`time`)) as dateNum from `price` group by dateNum");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row['avg(price)'])) continue;
-	$price_usd = "$price_usd [{$row['time']}000, ".round($row['avg(price)'], 2)."],";
+	//$price_usd = "$price_usd [{$row['time']}000, ".round($row['avg(price)'], 2)."],";
+	$price_usd = "$price_usd [".strtotime($row['dateNum'])."000, ".round($row['avg(price)'], 2)."],";
 }
 
 foreach ($markets as $key => $value) {
@@ -133,11 +145,13 @@ foreach ($markets as $key => $value) {
 	$mtable = $mtable."<tr><td><a href=\"{$value['url']}\" target=\"_blank\">{$key}</a></td><td>$ {$value['val']}</td><td> {$market_percent}%</td><td>$ {$value['price']}</td></tr>";
 }
 
-$query = $db->prepare("select avg(diff), time from `data` group by day(from_unixtime(`time`)) order by `time` asc");
+//$query = $db->prepare("select avg(diff), time from `data` group by day(from_unixtime(`time`)) order by `time` asc");
+$query = $db->prepare("select avg(diff), date(from_unixtime(`time`)) as dateNum from `data` group by dateNum");
 $query->execute();
 while($row=$query->fetch()){
 	if(empty($row['avg(diff)'])) continue;
-	$diff_stat = "$diff_stat [{$row['time']}000, {$row['avg(diff)']}],";
+	//$diff_stat = "$diff_stat [{$row['time']}000, {$row['avg(diff)']}],";
+	$diff_stat = "$diff_stat [".strtotime($row['dateNum'])."000, {$row['avg(diff)']}],";
 }
 
 $query_select = $db->prepare("SELECT * FROM `data` WHERE `time` > UNIX_TIMESTAMP()-86400");
