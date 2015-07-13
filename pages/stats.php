@@ -46,7 +46,7 @@ while($row=$query->fetch()){
 	if(date("n", $row['time']) == date("n", time())){
 		$number = date("j", time());
 	}else{
-		$number = date("j", $row['time']);
+		$number = date("j", $row['time']-50);
 	}
 	$table_market = $table_market."<tr><td>".date("Y, F", $row['time'])."</td><td>".round($row["avg(value)"]/$row["avg(usd)"]*$number)."</td><td>".round($row["avg(value)"]*$number)."</td></tr>";
 }

@@ -3,11 +3,16 @@ require_once('/var/www/midas/root/private/config.php');
 require_once('/var/www/midas/root/private/init/mysql.php');
 
 function cryptsy_price($id, $name, $dash = null){
-	$i = json_decode(file_get_contents("http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=".$id), true);
+	$i = @json_decode(file_get_contents("http://pubapi1.cryptsy.com/api.php?method=singlemarketdata&marketid=".$id), true);
+	$pubapi = 'pubapi1';
+	if($i == NULL){
+		$i = json_decode(file_get_contents("http://pubapi2.cryptsy.com/api.php?method=singlemarketdata&marketid=".$id), true);
+		$pubapi = 'pubapi2';
+	}
 	if($dash != null){
-		$j = json_decode(file_get_contents("http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=213"), true);
-		$v = json_decode(file_get_contents("http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=214"), true);
-		$z = json_decode(file_get_contents("http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=313"), true);
+		$j = json_decode(file_get_contents("http://$pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=213"), true);
+		$v = json_decode(file_get_contents("http://$pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=214"), true);
+		$z = json_decode(file_get_contents("http://$pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=313"), true);
 		return ['price' => $i["return"]["markets"][$name]["lasttradeprice"], 'vol' => $i["return"]["markets"][$name]["volume"]+$j["return"]["markets"][$name]["volume"]+$v["return"]["markets"][$name]["volume"]+$z["return"]["markets"][$name]["volume"]];
 	}
 	return ['price' => $i["return"]["markets"][$name]["lasttradeprice"], 'vol' => $i["return"]["markets"][$name]["volume"]];
@@ -49,9 +54,10 @@ function cex_price(){
 
 function usecryptos_price(){
 	$i = json_decode(file_get_contents("https://usecryptos.com/jsonapi/ticker/dash-btc"), true);
-	$j = json_decode(file_get_contents("https://usecryptos.com/jsonapi/ticker/dash-usd"), true);
+	//$j = json_decode(file_get_contents("https://usecryptos.com/jsonapi/ticker/dash-usd"), true);
 	$k = json_decode(file_get_contents("https://usecryptos.com/jsonapi/ticker/dash-eur"), true);
-	return ['price' => $i["lastPrice"], 'vol' => $i["priVolume"]+$j["priVolume"]+$k["priVolume"]];
+	//return ['price' => $i["lastPrice"], 'vol' => $i["priVolume"]+$j["priVolume"]+$k["priVolume"]];
+	return ['price' => $i["lastPrice"], 'vol' => $i["priVolume"]+$k["priVolume"]];
 }
 
 $btc = cryptsy_price(2, 'BTC');
