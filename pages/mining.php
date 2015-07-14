@@ -85,7 +85,7 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 			На данный момент вы можете использовать графический процессор (GPU) и центральный процессор (CPU) для выпуска новых монет.<br/>
 			<hr>
 			<h3>Пулы</h3>
-			Выпуском новых монет занимается огромное количество людей. Если вы занимаетесь этим самостоятельно и не имете большой мощности, то может пройти много времени (месяцы и более), прежде чем вы получите награду.
+			Выпуском новых монет занимается огромное количество людей. Если вы занимаетесь этим самостоятельно и не имеете большой мощности, то может пройти много времени (месяцы и более), прежде чем вы получите награду.
 			Участие в работе пула дает вам возможность зарабатывать понемногу, но зато регулярно, минимизируя для себя влияние удачи и риски месяцами ничего не заработать. Если у вас нет в наличии фермы из десятков или сотен видеокарт, участие в работе пула для вас единственный способ зарабатывать DASH.<br/><br/>
 			Существует два типа пулов: централизованные и децентрализованные. Последние принято называть p2pool.<br/>
 			Вы можете выбрать любой централизованный, например: <a href="https://coinmine.pl/dash/index.php" target="_blank">coinmine</a>, <a href="http://dark.coinobox.ru/" target="_blank">coinobox</a>, <a href="http://darkcoin.miningpoolhub.com/" target="_blank">miningpoolhub</a> или <a href="http://simplemulti.com/" target="_blank">simplemulti</a>.<br/>
@@ -173,11 +173,11 @@ $result_year = round($coins_per_year*$dash-$cost_per_year-$fee_year);
 				<button id="calc" type="submit" class="form-control btn btn-default">Посчитать</button>
 			</div>
 			<hr/>
-			<h3>CPU програмное обеспечение</h3>
+			<h3>CPU программное обеспечение</h3>
 			CPUminer [<a href="http://download.darkcoin.fr/darkCoin-cpuminer-1.3-avx-aes-windows-binaries.zip">windows</a>] [<a href="https://github.com/elmad/darkcoin-cpuminer-1.3-avx-aes">исходный код</a>] для центрального процессора, необходима поддержка AVX-AES.
 			<hr/>
-			<h3>GPU програмное обеспечение</h3>
-			CCminer [<a href="http://cryptomining-blog.com/wp-content/files/ccminer-1.5.2-git-spmod.zip">windows</a>] [<a href="https://github.com/sp-hash/ccminer">исходный код</a>] для NVidia, показывают высокий hashrate начиная с серии Maxwell.<br/>
+			<h3>GPU программное обеспечение</h3>
+			CCminer [<a href="http://cryptomining-blog.com/wp-content/files/ccminer-1.5.2-git-spmod.zip">windows</a>] [<a href="https://github.com/sp-hash/ccminer">исходный код</a>] для NVIDIA, показывают высокий hashrate начиная с серии Maxwell.<br/>
 			SGminer [<a href="http://cryptomining-blog.com/wp-content/files/sgminer-5-1-1-windows.zip">windows</a>] [<a href="https://github.com/sgminer-dev/sgminer">исходный код</a>] для AMD, максимальный hashrate на драйвере 14.6<br/>
 			Кроме этого, есть бинарники от Wolf0, которые позволяют значительно увеличить скорость на AMD картах.<br/>
 			Находим свою карту, скачиваем bin, смотрим какой bin вы использовали.<br/>
