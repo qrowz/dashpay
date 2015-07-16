@@ -49,9 +49,12 @@
 			Для управления своей нодой - введите ключ мастерноды, далее выполните нужное вам действие.<br/><br/>
 			
 			<input id="private_key" class="form-control" placeholder="masternode key" type="text"><br/>
-			<center><button id="calc" type="submit" class="form-control btn btn-default" style="width: 300px;">Перезагрузить</button>
-			<button id="calc" type="submit" class="form-control btn btn-default" style="width: 300px;">Статус</button>
-			<button id="calc" type="submit" class="form-control btn btn-default" style="width: 300px;">Скачать debug.log</button></center>
+			
+			<center>
+				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Перезагрузить</button>
+				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Статус</button>
+				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Скачать debug.log</button>
+			</center>
 			
 			<hr>
 			
@@ -60,10 +63,10 @@
 			<blockquote style="font-size:14px;">getaccountaddress 0</blockquote>
 			После того как вы выполните эту команду - вы увидите свой новый адрес. Отправьте на него 1000 DASH.<br/><br/>
 			<blockquote style="font-size:14px;">sendtoaddress ваш_новый_адрес 1000</blockquote>
-			Через 50-60 минут напишите свой адрес (на который вы отправили 1000 DASH) и нажимите кнопку "<u>получить masternode.conf</u>"<br/><br/>
+			Вы увидите номер вашей транзакции, через 50 минут напишите этот номер и нажимите кнопку "<u>получить masternode.conf</u>"<br/><br/>
 			
-			<input id="private_key" class="form-control" placeholder="1000 DASH адрес" type="text"><br/>
-			<button id="calc" type="submit" class="form-control btn btn-default">Получить masternode.conf</button>
+			<input id="txid" class="form-control" placeholder="Номер вашей транзакции" type="text"><br/>
+			<button id="setup" type="submit" class="form-control btn btn-default">Получить masternode.conf</button>
 			
 			<br/><br/>
 			Если все прошло успешно и вы скачали файл <u>masternode.conf</u>, то положите его в папку <i>%appdata%/Dash/</i><br/>
@@ -86,5 +89,13 @@
 		</div>
 	</div>
 </div>
+<script>
+$("#setup").click(function(e) {
+	$(this).blur();
+	e.preventDefault();
+	txid = $('input[id=txid]').val();
+	alert(txid);
+});
+</script>
 </body>
 </html>
