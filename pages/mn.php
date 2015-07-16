@@ -98,8 +98,17 @@ $("#setup").click(function(e) {
 	e.preventDefault();
 	txid = $('input[id=txid]').val();
 	//alertify.success("Success notification");
-	//$.post("//dash.org.ru/public/mn.php", { txid: txid }, function( data ){
-	//});
+	$.post("//dash.org.ru/public/mn.php", { txid: txid }, function( data ){
+		if(data == 'empty'){
+			alertify.error("Пустое значение");
+			return;
+		}
+		if(data == 'wrong_txid'){
+			alertify.error("Неправильный номер транзакции");
+			return;
+		}
+		window.location = "//dash.org.ru/public/mn.php?download=getfile&data="+data;
+	});
 });
 </script>
 </body>
