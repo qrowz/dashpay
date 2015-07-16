@@ -48,6 +48,7 @@ while($row=$query->fetch()){
 	}else{
 		$number = date("j", $row['time']-50);
 	}
+	//echo round($row["avg(value)"])." ".round($row["avg(usd)"])." = ".round($row["avg(value)"]/$row["avg(usd)"])."<br/>";
 	$table_market = $table_market."<tr><td>".date("Y, F", $row['time'])."</td><td>".round($row["avg(value)"]/$row["avg(usd)"]*$number)."</td><td>".round($row["avg(value)"]*$number)."</td></tr>";
 }
 
@@ -246,7 +247,7 @@ for ($i=1; $i<50; $i++) {
 				<li><a href="/pages/trade.php">Биржа</a></li>
 				<li><a href="/pages/merchant.php">Прием платежей</a></li>
 				<li class="active"><a href="/pages/stats.php">Статистика</a></li>
-				<li><a href="https://wiki.dash.org.ru" target="_blank">База знаний</a></li>
+				<li><a href="/pages/mn.php">Хостинг</a></li>
 			</ul>
 		</div>
 	</div>

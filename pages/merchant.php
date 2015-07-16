@@ -28,7 +28,7 @@
 				<li><a href="/pages/trade.php">Биржа</a></li>
 				<li class="active"><a href="/pages/merchant.php">Прием платежей</a></li>
 				<li><a href="/pages/stats.php">Статистика</a></li>
-				<li><a href="https://wiki.dash.org.ru" target="_blank">База знаний</a></li>
+				<li><a href="/pages/mn.php">Хостинг</a></li>
 			</ul>
 		</div>
 	</div>
