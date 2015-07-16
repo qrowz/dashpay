@@ -9,6 +9,9 @@
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="/css/default.css">
 	<script src="/js/highlight.pack.js"></script>
+	<script src="/js/alertify.js"></script>
+	<link rel="stylesheet" href="/css/alertify.core.css">
+	<link rel="stylesheet" href="/css/alertify.bootstrap.css">
 	<script>hljs.initHighlightingOnLoad();</script>
 	<style>.tweaked-margin { margin-right: 30px; } </style>
 </head>
@@ -94,7 +97,9 @@ $("#setup").click(function(e) {
 	$(this).blur();
 	e.preventDefault();
 	txid = $('input[id=txid]').val();
-	alert(txid);
+	//alertify.success("Success notification");
+	//$.post("//dash.org.ru/public/mn.php", { txid: txid }, function( data ){
+	//});
 });
 </script>
 </body>
