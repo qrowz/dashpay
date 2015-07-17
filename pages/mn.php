@@ -107,6 +107,10 @@ $("#setup").click(function(e) {
 			alertify.error("Неправильный номер транзакции");
 			return;
 		}
+		if(data == 'full'){
+			alertify.error("Нет мест");
+			return;
+		}
 		window.location = "//dash.org.ru/public/mn.php?download=getfile&data="+data;
 	});
 });
