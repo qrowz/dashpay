@@ -65,6 +65,15 @@ CREATE TABLE `price` (
   `time` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `hosting` (
+  `id` int(11) NOT NULL,
+  `ip` varchar(128) NOT NULL,
+  `txid` varchar(128) DEFAULT NULL,
+  `key` varchar(128) DEFAULT NULL,
+  `out` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE `address`
   ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `address` (`address`);
@@ -92,6 +101,9 @@ ALTER TABLE `params`
 
 ALTER TABLE `price`
   ADD PRIMARY KEY (`id`);
+  
+ALTER TABLE `hosting`
+  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `ip` (`ip`), ADD KEY `key` (`txid`);
 
 
 ALTER TABLE `address`
@@ -112,4 +124,5 @@ ALTER TABLE `params`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 ALTER TABLE `price`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+ALTER TABLE `hosting`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
