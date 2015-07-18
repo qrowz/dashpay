@@ -14,7 +14,7 @@ function send_do($command, $ip, $key){
 }
 
 function check_mn($ip){
-	global darkcoin;
+	global $darkcoin;
 	$info = $darkcoin->masternode('list');
 	if(@$info["$ip:9999"] == 'ENABLED'){
 		$i = 'OK';
@@ -112,11 +112,11 @@ if($query->rowCount() != 1){
 	$outputs = $row['out'];
 	
 	// Не отдаем приватный ключ MN после того как она запустилась.
-	if(check_mn($ip) == 'OK') die "mn_work";
+	if(check_mn($ip) == 'OK') die('mn_work');
 }
 
 if(empty(send_do('setup', $ip, $mn_key))){
-	echo urlencode(base64_encode("$name $ip $mn_key $tx $outputs $donate"));
+	echo urlencode(base64_encode("$name $ip:9999 $mn_key $tx $outputs $donate"));
 }else{
 	echo 'error';
 }
