@@ -1,5 +1,4 @@
 <? 
-if($_SERVER['REMOTE_ADDR'] != 'x.x.x.x') die;
 function conf_dash($command, $ip, $key){
 	$conf = "/home/dash/data/$ip/dash.conf";
 	$file = file($conf);
@@ -37,8 +36,10 @@ function dash_restart($ip){
 	shell_exec("dashd -datadir=/home/dash/data/$ip -daemon > /dev/null 2>/dev/null &");
 }
 
-if(empty($_GET['ip']) || empty($_GET['do'])) die('empty');
+if(empty($_GET['ip']) || empty($_GET['do']) || empty($_GET['auth'])) die('empty');
 if(preg_match('/[^0-9-.]/', $_GET['ip']) || !filter_var($_GET['ip'], FILTER_VALIDATE_IP)) die('wrong_ip');
+if($_GET['auth'] != 'secret') die('no_auth');
+
 $ip = $_GET['ip'];
 
 switch($_GET['do']){

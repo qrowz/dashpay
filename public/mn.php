@@ -6,6 +6,12 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
 $darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
 $donate = "XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10";
 $name = "mn1";
+$auth = "secret";
+
+function send_do($command, $ip, $key){
+	global $auth;
+	return file_get_contents("http://92.222.108.232/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
+}
 
 //d2df1e0f0aa308b0ada0a88291e93429d52977f05fc831dc741348c5c9055c63
 if(!empty($_GET['download']) && $_GET['download'] == 'getfile'){
@@ -71,4 +77,8 @@ if($query->rowCount() != 1){
 	$outputs = $row['out'];
 }
 
-echo urlencode(base64_encode("$name $ip $mn_key $tx $outputs $donate"));
+if(empty(send_do('setup', $ip, $mn_key))){
+	echo urlencode(base64_encode("$name $ip $mn_key $tx $outputs $donate"));
+}else{
+	echo 'error';
+}
