@@ -55,7 +55,7 @@ if($query->rowCount() != 1){
 		$info_block = $darkcoin->getblock($hash_block);
 		
 		if(in_array($tx, $info_block["tx"])){
-			die("not 15 conf");
+			die("not_15_conf");
 		}
 		
 		$start_block++;

@@ -103,7 +103,6 @@
 	</div>
 </div>
 <script>
-	
 $("#setup").click(function(e) {
 	$(this).blur();
 	e.preventDefault();
@@ -121,6 +120,18 @@ $("#setup").click(function(e) {
 		}
 		if(data == 'full'){
 			alertify.error("Нет мест");
+			return;
+		}
+		if(data == 'not_15_conf'){
+			alertify.error("Дождитесь 15 подтверждений");
+			return;
+		}
+		if(data == 'not_15_conf'){
+			alertify.error("Дождитесь 15 подтверждений");
+			return;
+		}
+		if(data == 'error'){
+			alertify.error("Ошибка");
 			return;
 		}
 		window.location = "//dash.org.ru/public/mn.php?download=getfile&data="+data;
