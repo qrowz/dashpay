@@ -66,7 +66,7 @@
 			<center>
 				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Перезагрузить</button>
 				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Статус</button>
-				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Скачать debug.log</button>
+				<button id="log" type="submit" class="form-control btn btn-default" style="width: 300px;">Скачать debug.log</button>
 			</center>
 			
 			<hr>
@@ -103,6 +103,21 @@
 	</div>
 </div>
 <script>
+$("#log").click(function(e) {
+	$(this).blur();
+	e.preventDefault();
+	key = $('input[id=private_key]').val();
+	$('#myModal').modal('show');
+	$.post("//dash.org.ru/public/mn.php?control=log", { key: key }, function( data ){
+		$('#myModal').modal('hide');
+		if(data == 'no_key'){
+			alertify.error("Неправильный ключ");
+			return;
+		}
+		window.location = data;
+	});
+});
+
 $("#setup").click(function(e) {
 	$(this).blur();
 	e.preventDefault();

@@ -13,6 +13,32 @@ function send_do($command, $ip, $key){
 	return file_get_contents("http://92.222.108.232/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
 }
 
+if(!empty($_GET['control'])){
+	sleep(1);
+	if(empty($_POST['key'])) die('no_key');
+	$key = $_POST['key'];
+	$query = $db->prepare("SELECT * FROM `hosting` WHERE `key` = :key");
+	$query->bindParam(':key', $key, PDO::PARAM_STR);
+	$query->execute();
+	if($query->rowCount() != 1) die('no_key');
+	$row=$query->fetch();
+	$ip = $row['ip'];	
+	switch($_GET['control']){
+		default: echo "no"; break;
+		case 'restart': send_do('restart', $ip, $key); break;
+		case 'log':
+			send_do('log', $ip, $key);
+			echo "http://92.222.108.232/$ip/debug.tar.gz";
+		break;
+		case 'status':
+			$info = $darkcoin->masternode('list');
+			if($info["$ip:9999"] == 'ENABLED'){
+				echo 'OK';
+			}
+	}
+	die;
+}
+
 //d2df1e0f0aa308b0ada0a88291e93429d52977f05fc831dc741348c5c9055c63
 if(!empty($_GET['download']) && $_GET['download'] == 'getfile'){
 	header ("Accept-Ranges: bytes");
