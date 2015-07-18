@@ -32,8 +32,10 @@ if(!empty($_GET['control'])){
 		break;
 		case 'status':
 			$info = $darkcoin->masternode('list');
-			if($info["$ip:9999"] == 'ENABLED'){
+			if(@$info["$ip:9999"] == 'ENABLED'){
 				echo 'OK';
+			}else{
+				echo 'NO';
 			}
 	}
 	die;

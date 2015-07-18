@@ -64,8 +64,8 @@
 			<input id="private_key" class="form-control" placeholder="masternode key" type="text"><br/>
 			
 			<center>
-				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Перезагрузить</button>
-				<button type="submit" class="form-control btn btn-default" style="width: 300px;">Статус</button>
+				<button id="restart" type="submit" class="form-control btn btn-default" style="width: 300px;">Перезагрузить</button>
+				<button id="status" type="submit" class="form-control btn btn-default" style="width: 300px;">Статус</button>
 				<button id="log" type="submit" class="form-control btn btn-default" style="width: 300px;">Скачать debug.log</button>
 			</center>
 			
@@ -115,6 +115,42 @@ $("#log").click(function(e) {
 			return;
 		}
 		window.location = data;
+	});
+});
+
+$("#restart").click(function(e) {
+	$(this).blur();
+	e.preventDefault();
+	key = $('input[id=private_key]').val();
+	$('#myModal').modal('show');
+	$.post("//dash.org.ru/public/mn.php?control=restart", { key: key }, function( data ){
+		$('#myModal').modal('hide');
+		if(data == 'no_key'){
+			alertify.error("Неправильный ключ");
+			return;
+		}
+		alertify.success("Готово");
+	});
+});
+
+$("#status").click(function(e) {
+	$(this).blur();
+	e.preventDefault();
+	key = $('input[id=private_key]').val();
+	$('#myModal').modal('show');
+	$.post("//dash.org.ru/public/mn.php?control=status", { key: key }, function( data ){
+		$('#myModal').modal('hide');
+		if(data == 'no_key'){
+			alertify.error("Неправильный ключ");
+			return;
+		}
+		if(data == 'ENABLED'){
+			alertify.success("Ваша MN работает");
+			return;
+		}else{
+			alertify.error("Ваша MN не работает");
+			return;
+		}
 	});
 });
 
