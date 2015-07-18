@@ -16,6 +16,16 @@
 	<style>.tweaked-margin { margin-right: 30px; } </style>
 </head>
 <body>
+<div id="myModal" class="modal fade" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<center> <h4 class="modal-title">Пожалуйста, подождите.</h4> </center>
+			</div>
+			<div id="modal_info" class="modal-body"></div>
+		</div>
+	</div>
+</div>
 <nav class="navbar navbar-default">
 	<div class="container">
 		<div class="navbar-header">
@@ -93,12 +103,14 @@
 	</div>
 </div>
 <script>
+	
 $("#setup").click(function(e) {
 	$(this).blur();
 	e.preventDefault();
 	txid = $('input[id=txid]').val();
-	//alertify.success("Success notification");
+	$('#myModal').modal('show');
 	$.post("//dash.org.ru/public/mn.php", { txid: txid }, function( data ){
+		$('#myModal').modal('hide');
 		if(data == 'empty'){
 			alertify.error("Пустое значение");
 			return;
