@@ -185,6 +185,10 @@ $("#setup").click(function(e) {
 			alertify.error("Ошибка");
 			return;
 		}
+		if(data == 'mn_work'){
+			alertify.error("MN уже работает");
+			return;
+		}
 		window.location = "//dash.org.ru/public/mn.php?download=getfile&data="+data;
 	});
 });

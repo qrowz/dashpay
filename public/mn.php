@@ -13,6 +13,17 @@ function send_do($command, $ip, $key){
 	return file_get_contents("http://92.222.108.232/index.php?do=$command&ip=$ip&key=$key&auth=$auth");
 }
 
+function check_mn($ip){
+	global darkcoin;
+	$info = $darkcoin->masternode('list');
+	if(@$info["$ip:9999"] == 'ENABLED'){
+		$i = 'OK';
+	}else{
+		$i = 'NO';
+	}
+	return $i;
+}
+
 if(!empty($_GET['control'])){
 	sleep(1);
 	if(empty($_POST['key'])) die('no_key');
@@ -31,12 +42,8 @@ if(!empty($_GET['control'])){
 			echo "http://92.222.108.232/$ip/debug.tar.gz";
 		break;
 		case 'status':
-			$info = $darkcoin->masternode('list');
-			if(@$info["$ip:9999"] == 'ENABLED'){
-				echo 'OK';
-			}else{
-				echo 'NO';
-			}
+			echo check_mn($ip);
+		break;
 	}
 	die;
 }
@@ -103,6 +110,9 @@ if($query->rowCount() != 1){
 	$ip = $row['ip'];
 	$mn_key = $row['key'];
 	$outputs = $row['out'];
+	
+	// Не отдаем приватный ключ MN после того как она запустилась.
+	if(check_mn($ip) == 'OK') die "mn_work";
 }
 
 if(empty(send_do('setup', $ip, $mn_key))){
