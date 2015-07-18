@@ -4,6 +4,15 @@ function conf_dash($command, $ip, $key){
 	$conf = "/home/dash/data/$ip/dash.conf";
 	$file = file($conf);
 	
+	if($command == 'check'){
+		if(count($file) == 8){
+			$file[7] = trim($file[7]);
+			if($file[7] == "masternodeprivkey=$key"){
+				return 'ready';
+			}
+		}
+	}
+	
 	if($command == 'add'){
 		if(count($file) == 6){
 			$file[6] = "\nmasternode=1";
@@ -38,8 +47,10 @@ switch($_GET['do']){
 	case 'setup': 
 		if(empty($_GET['key'])) die('empty_key');
 		if(preg_match('/[^0-9a-zA-z]/', $_GET['key'])) die('wrong_key');
-		conf_dash('remove', $ip, NULL);
-		conf_dash('add', $ip, $_GET['key']);
+		if(conf_dash('check', $ip, $_GET['key']) != 'ready'){
+			conf_dash('remove', $ip, NULL);
+			conf_dash('add', $ip, $_GET['key']);
+		}
 		dash_restart($ip);
 	break;
 	case 'log':
