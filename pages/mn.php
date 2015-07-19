@@ -23,7 +23,7 @@ $query = $db->query("SELECT * FROM `hosting`");
 $query->execute();
 $mn_all = $query->rowCount();
 	while($row=$query->fetch()){
-		if(check_mn($row['ip']) == 'OK'){
+		if(check_mn($row['ip']) == 'OK' || time()-60*60*24 < $row['last'] || time()-60*60*24 < $row['time']){
 			$mn_online++;
 		}
 	}

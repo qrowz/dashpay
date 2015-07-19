@@ -4,6 +4,7 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
 $darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
+$info = $darkcoin->masternode('list');
 $donate = "XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10";
 $name = "mn1";
 $auth = "secret";
@@ -14,14 +15,29 @@ function send_do($command, $ip, $key){
 }
 
 function check_mn($ip){
-	global $darkcoin;
-	$info = $darkcoin->masternode('list');
+	global $darkcoin, $info;
 	if(@$info["$ip:9999"] == 'ENABLED'){
 		$i = 'OK';
 	}else{
 		$i = 'NO';
 	}
 	return $i;
+}
+
+if(!empty($_GET['check'])){
+$query = $db->query("SELECT * FROM `hosting`");
+$query->execute();
+$mn_all = $query->rowCount();
+	while($row=$query->fetch()){
+		if(check_mn($row['ip']) == 'OK'){
+			$query_update = $db->prepare("UPDATE `hosting` SET `last` = :time WHERE `ip` = :ip");
+			$query_update->bindParam(':time', time(), PDO::PARAM_STR);
+			$query_update->bindParam(':ip', $row['ip'], PDO::PARAM_STR);
+			$query_update->execute();
+			echo $row['ip'];
+		}
+	}
+die;
 }
 
 if(!empty($_GET['control'])){
@@ -48,7 +64,6 @@ if(!empty($_GET['control'])){
 	die;
 }
 
-//d2df1e0f0aa308b0ada0a88291e93429d52977f05fc831dc741348c5c9055c63
 if(!empty($_GET['download']) && $_GET['download'] == 'getfile'){
 	header ("Accept-Ranges: bytes");
 	header ("Connection: close");
@@ -57,6 +72,8 @@ if(!empty($_GET['download']) && $_GET['download'] == 'getfile'){
 	echo base64_decode(urldecode($_GET['data']));
 	die;
 }
+
+sleep(1);
 
 if(empty($_POST['txid'])) die("empty");
 if(preg_match('/[^0-9a-z]/', $_POST['txid'])) die('wrong_txid');
@@ -69,11 +86,16 @@ $query->execute();
 if($query->rowCount() != 1){
 
 	// Проверим, есть ли свободные места
-	$query = $db->prepare("SELECT * FROM `hosting` WHERE `txid` IS NULL");
+	$query = $db->query("SELECT * FROM `hosting`");
 	$query->execute();
-	if($query->rowCount() == 0) die('full');
-	$row=$query->fetch();
-	$ip = $row['ip'];
+	while($row=$query->fetch()){
+		if(check_mn($row['ip']) == 'NO' && time()-60*60*24 > $row['last'] && time()-60*60*24 > $row['time']){
+			$ip = $row['ip'];
+			continue;
+		}
+	}
+	
+	if(empty($ip)) die('full');
 
 	$raw_tx = $darkcoin->getrawtransaction($tx);
 	if(empty($raw_tx)) die('wrong_txid');
@@ -112,7 +134,7 @@ if($query->rowCount() != 1){
 	$outputs = $row['out'];
 	
 	// Не отдаем приватный ключ MN после того как она запустилась.
-	if(check_mn($ip) == 'OK') die('mn_work');
+	if(check_mn($ip) == 'OK' || time()-60*60*24 > $row['time']) die('mn_work');
 }
 
 if(empty(send_do('setup', $ip, $mn_key))){
