@@ -225,8 +225,12 @@ $("#setup").click(function(e) {
 			alertify.error("Дождитесь 15 подтверждений");
 			return;
 		}
-		if(data == 'not_15_conf'){
-			alertify.error("Дождитесь 15 подтверждений");
+		if(data == 'not_1000_DASH_TX'){
+			alertify.error("Неправильная транзакция");
+			return;
+		}
+		if(data == 'not_1000_DASH_BALANCE'){
+			alertify.error("Ваш баланс != 1000 DASH");
 			return;
 		}
 		if(data == 'error'){
