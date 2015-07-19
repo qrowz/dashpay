@@ -71,7 +71,8 @@ CREATE TABLE IF NOT EXISTS `hosting` (
   `txid` varchar(128) DEFAULT NULL,
   `key` varchar(128) DEFAULT NULL,
   `out` int(11) DEFAULT NULL,
-  `time` int(11) DEFAULT NULL
+  `time` int(11) DEFAULT NULL,
+  `last` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
