@@ -1,3 +1,36 @@
+<?
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/class/easydarkcoin.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/config.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/init/mysql.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/private/func.php');
+$darkcoin = new Darkcoin('xxx','xxx','localhost','9998');
+$info = $darkcoin->masternode('list');
+
+function check_mn($ip){
+	global $darkcoin, $info;
+	
+	if(@$info["$ip:9999"] == 'ENABLED'){
+		$i = 'OK';
+	}else{
+		$i = 'NO';
+	}
+	return $i;
+}
+
+$mn_online = 0;
+
+$query = $db->query("SELECT * FROM `hosting`");
+$query->execute();
+$mn_all = $query->rowCount();
+	while($row=$query->fetch()){
+		if(check_mn($row['ip']) == 'OK'){
+			$mn_online++;
+		}
+	}
+
+$mn_free = $mn_all - $mn_online;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +91,22 @@
 			
 			<hr>
 			
-			<h3>MasterNode управление</h3>
+			<h3>Информация</h3>
+			Техническая поддержка пользователей осущеставляется через ICQ: 450420625<br/>
+			Мы автоматически получаем от вас оплату через систему пожертвований.<br/>
+			Вы сами решаете сколько нам оплачивать. Этот параметр задается в файле masternode.conf<br/><br/>
+			<blockquote style="font-size:14px;">XkB8ySpiqyVHeAXHsNhU83mUJ7Jd3CJaqW:10</blockquote>
+	
+			Такая запись означает - что мы получаем 10% от дохода вашей мастерноды.<br/>
+			Со своей стороны мы назначаем минимальный лимит в процентах.<br/>
+			И раз в некоторое время, проверяем, donate настройки вашей мастерноды.<br/>
+			Если мы замечаем, что вы жульничаете - то мы выключаем вашу ее.<br><br>
+			
+			Количество размещенных MN: <? echo $mn_online; ?> | Количество свободных мест: <? echo $mn_free; ?> | Минимальный donate лимит: 10%<br/><br/>
+			
+			<hr>
+			
+			<h3>Управление</h3>
 			Для управления своей нодой - введите ключ мастерноды, далее выполните нужное вам действие.<br/><br/>
 			
 			<input id="private_key" class="form-control" placeholder="masternode key" type="text"><br/>
@@ -71,7 +119,7 @@
 			
 			<hr>
 			
-			<h3>MasterNode установка</h3>
+			<h3>Установка</h3>
 			Запустите ваш DASH кошелек и откройте консоль. Далее создайте новый DASH адрес.<br/><br/>
 			<blockquote style="font-size:14px;">getaccountaddress 0</blockquote>
 			После того как вы выполните эту команду - вы увидите свой новый адрес. Отправьте на него 1000 DASH.<br/><br/>
